@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Cielo;
+namespace Rentalhost\Vanilla\Checkout\Wrapper\Cielo;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;

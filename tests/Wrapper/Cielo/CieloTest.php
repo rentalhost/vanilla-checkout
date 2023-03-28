@@ -2,14 +2,16 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Cielo\Tests;
+namespace Rentalhost\Vanilla\Checkout\Tests\Wrapper\Cielo;
 
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use Rentalhost\Vanilla\Cielo\Cielo;
-use Rentalhost\Vanilla\Cielo\CieloProductLink;
-use Rentalhost\Vanilla\Cielo\CieloTransactionType;
+use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\Cielo;
+use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\CieloProductLink;
+use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\CieloTransactionType;
 
 class CieloTest
     extends TestCase
@@ -54,6 +56,26 @@ class CieloTest
         $this->assertSame('Bearer example', $cielo->getAuthorization());
 
         return $cielo;
+    }
+
+    /**
+     * @depends testMockHandler
+     */
+    public function testGetAuthorizationFailure(MockHandler $mockHandler)
+    {
+        $this->expectExceptionMessage('Test Error');
+
+        $cielo = new Cielo([
+            'merchantId'  => '',
+            'merchantKey' => '',
+            'handler'     => $mockHandler,
+        ]);
+
+        $mockHandler->append(
+            new RequestException('Test Error', new Request('GET', 'test'))
+        );
+
+        $cielo->getAuthorization();
     }
 
     public function testMockHandler()

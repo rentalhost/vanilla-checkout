@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Cielo\Tests\Services;
+namespace Rentalhost\Vanilla\Checkout\Tests\Services;
 
 use Dotenv\Dotenv;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Cielo;
+namespace Rentalhost\Vanilla\Checkout\Utils;
 
-class CieloTesting
+class DataProvider
 {
     private static array $properties = [];
 
@@ -13,10 +13,14 @@ class CieloTesting
         self::$properties = [];
     }
 
-    public static function get(string $key, mixed $else)
+    public static function get(string $key, mixed $else = null)
     {
         if (array_key_exists($key, self::$properties)) {
             return self::$properties[$key];
+        }
+
+        if (is_callable($else)) {
+            return $else();
         }
 
         return $else;

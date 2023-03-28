@@ -2,25 +2,26 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Cielo\Tests;
+namespace Rentalhost\Vanilla\Checkout\Tests\Wrapper\Cielo;
 
 use PHPUnit\Framework\TestCase;
-use Rentalhost\Vanilla\Cielo\CieloListener;
-use Rentalhost\Vanilla\Cielo\CieloTesting;
-use Rentalhost\Vanilla\Cielo\CieloTransactionStatus;
+use Rentalhost\Vanilla\Checkout\Utils\DataProvider;
+use Rentalhost\Vanilla\Checkout\Utils\Request;
+use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\CieloListener;
+use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\CieloTransactionStatus;
 
 class CieloListenerTest
     extends TestCase
 {
     protected function setUp(): void
     {
-        CieloTesting::clear();
+        DataProvider::clear();
     }
 
     public function testListener()
     {
-        CieloTesting::put('requestHeaders', [ 'MerchantId' => 'example' ]);
-        CieloTesting::put('requestBody', json_encode([
+        DataProvider::put(Request::REQUEST_HEADERS, [ 'MerchantId' => 'example' ]);
+        DataProvider::put(Request::REQUEST_BODY, json_encode([
             'checkout_cielo_order_number' => '123-456-guid',
             'order_number'                => 'Order01',
             'payment_status'              => CieloTransactionStatus::PAID->value,
@@ -33,6 +34,8 @@ class CieloListenerTest
         $this->assertSame('123-456-guid', $notification->id);
         $this->assertSame('Order01', $notification->orderNumber);
         $this->assertSame(CieloTransactionStatus::PAID, $notification->paymentStatus);
+        $this->assertTrue($notification->paymentStatus->isPaid());
+        $this->assertFalse($notification->paymentStatus->isRejected());
         $this->assertSame(3, $notification->paymentInstallments);
     }
 

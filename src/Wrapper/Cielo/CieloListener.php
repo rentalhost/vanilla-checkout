@@ -2,9 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Cielo;
+namespace Rentalhost\Vanilla\Checkout\Wrapper\Cielo;
 
 use Exception;
+use Rentalhost\Vanilla\Checkout\Utils\Request;
 
 class CieloListener
 {
@@ -14,7 +15,7 @@ class CieloListener
 
     public function getTransactionNotification(): CieloTransactionNotification|null
     {
-        $headers          = CieloUtils::getRequestHeaders();
+        $headers          = Request::getRequestHeaders();
         $headerMerchantId = $headers['MerchantId'] ?? null;
 
         if ($headerMerchantId === null ||
@@ -22,6 +23,6 @@ class CieloListener
             throw new Exception('invalid Merchant ID header');
         }
 
-        return CieloTransactionNotification::fromNotification(json_decode(CieloUtils::getRequestBody(), true));
+        return CieloTransactionNotification::fromNotification(json_decode(Request::getRequestBody(), true));
     }
 }
