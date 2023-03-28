@@ -42,8 +42,8 @@ class CieloTest
     public function testGetAuthorization(MockHandler $mockHandler)
     {
         $cielo = new Cielo([
-            'merchantId'  => $_ENV['CIELO_MERCHANT_ID'],
-            'merchantKey' => $_ENV['CIELO_MERCHANT_KEY'],
+            'merchantId'  => 'mock',
+            'merchantKey' => 'mock',
             'handler'     => $mockHandler,
         ]);
 
@@ -66,8 +66,8 @@ class CieloTest
         $this->expectExceptionMessage('Test Error');
 
         $cielo = new Cielo([
-            'merchantId'  => '',
-            'merchantKey' => '',
+            'merchantId'  => 'mock',
+            'merchantKey' => 'mock',
             'handler'     => $mockHandler,
         ]);
 

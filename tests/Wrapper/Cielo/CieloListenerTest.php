@@ -20,7 +20,7 @@ class CieloListenerTest
 
     public function testListener()
     {
-        DataProvider::put(Request::REQUEST_HEADERS, [ 'MerchantId' => 'example' ]);
+        DataProvider::put(Request::REQUEST_HEADERS, [ 'MerchantId' => 'mock' ]);
         DataProvider::put(Request::REQUEST_BODY, json_encode([
             'checkout_cielo_order_number' => '123-456-guid',
             'order_number'                => 'Order01',
@@ -28,7 +28,7 @@ class CieloListenerTest
             'payment_installments'        => 3,
         ]));
 
-        $listener     = new CieloListener('example');
+        $listener     = new CieloListener('mock');
         $notification = $listener->getTransactionNotification();
 
         $this->assertSame('123-456-guid', $notification->id);
