@@ -37,11 +37,90 @@ class CieloListenerTest
         $this->assertTrue($notification->paymentStatus->isPaid());
         $this->assertFalse($notification->paymentStatus->isRejected());
         $this->assertSame(3, $notification->paymentInstallments);
+
+        DataProvider::put(Request::REQUEST_BODY, json_encode([
+            'checkout_cielo_order_number' => '123-456-guid',
+            'order_number'                => 'Order01',
+            'payment_status'              => CieloTransactionStatus::AUTHORIZED->value,
+            'payment_installments'        => 3,
+        ]));
+
+        $listener     = new CieloListener('mock');
+        $notification = $listener->getTransactionNotification();
+
+        $this->assertSame(CieloTransactionStatus::AUTHORIZED, $notification->paymentStatus);
+        $this->assertTrue($notification->paymentStatus->isPaid());
+
+        DataProvider::put(Request::REQUEST_BODY, json_encode([
+            'checkout_cielo_order_number' => '123-456-guid',
+            'order_number'                => 'Order01',
+            'payment_status'              => CieloTransactionStatus::DENIED->value,
+            'payment_installments'        => 3,
+        ]));
+
+        $listener     = new CieloListener('mock');
+        $notification = $listener->getTransactionNotification();
+
+        $this->assertSame(CieloTransactionStatus::DENIED, $notification->paymentStatus);
+        $this->assertFalse($notification->paymentStatus->isPaid());
+        $this->assertTrue($notification->paymentStatus->isRejected());
+
+        DataProvider::put(Request::REQUEST_BODY, json_encode([
+            'checkout_cielo_order_number' => '123-456-guid',
+            'order_number'                => 'Order01',
+            'payment_status'              => CieloTransactionStatus::EXPIRED->value,
+            'payment_installments'        => 3,
+        ]));
+
+        $listener     = new CieloListener('mock');
+        $notification = $listener->getTransactionNotification();
+
+        $this->assertSame(CieloTransactionStatus::EXPIRED, $notification->paymentStatus);
+        $this->assertFalse($notification->paymentStatus->isPaid());
+        $this->assertTrue($notification->paymentStatus->isRejected());
+
+        DataProvider::put(Request::REQUEST_BODY, json_encode([
+            'checkout_cielo_order_number' => '123-456-guid',
+            'order_number'                => 'Order01',
+            'payment_status'              => CieloTransactionStatus::VOIDED->value,
+            'payment_installments'        => 3,
+        ]));
+
+        $listener     = new CieloListener('mock');
+        $notification = $listener->getTransactionNotification();
+
+        $this->assertSame(CieloTransactionStatus::VOIDED, $notification->paymentStatus);
+        $this->assertFalse($notification->paymentStatus->isPaid());
+        $this->assertTrue($notification->paymentStatus->isRejected());
+
+        DataProvider::put(Request::REQUEST_BODY, json_encode([
+            'checkout_cielo_order_number' => '123-456-guid',
+            'order_number'                => 'Order01',
+            'payment_status'              => CieloTransactionStatus::NOT_FINALIZED->value,
+            'payment_installments'        => 3,
+        ]));
+
+        $listener     = new CieloListener('mock');
+        $notification = $listener->getTransactionNotification();
+
+        $this->assertSame(CieloTransactionStatus::NOT_FINALIZED, $notification->paymentStatus);
+        $this->assertFalse($notification->paymentStatus->isPaid());
+        $this->assertTrue($notification->paymentStatus->isRejected());
     }
 
     public function testListenerException()
     {
         $this->expectExceptionMessage('invalid Merchant ID header');
+
+        $listener = new CieloListener('example');
+        $listener->getTransactionNotification();
+    }
+
+    public function testListenerException2()
+    {
+        $this->expectExceptionMessage('invalid Merchant ID header');
+
+        DataProvider::put(Request::REQUEST_HEADERS, [ 'MerchantId' => 'mock' ]);
 
         $listener = new CieloListener('example');
         $listener->getTransactionNotification();

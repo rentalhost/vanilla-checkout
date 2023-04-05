@@ -49,7 +49,7 @@ class Cielo
                 'Content-Type'  => 'application/json',
             ],
             'body'    => json_encode([
-                'name'                    => $productLink->proudctName,
+                'name'                    => $productLink->productName,
                 'description'             => $productLink->productDescription,
                 'showDescription'         => $productLink->productDescription !== null,
                 'price'                   => (int) ($productLink->productPrice * 100),
@@ -91,7 +91,6 @@ class Cielo
                 $this->authorizationBearer = sprintf('Bearer %s', $response['access_token']);
             }
             catch (ClientException) {
-                return null;
             }
         }
 

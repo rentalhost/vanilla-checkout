@@ -28,7 +28,7 @@ class CieloProductLink
 
     public function __construct(
         /** Product name. */
-        public string $proudctName,
+        public string $productName,
 
         /** Product price. */
         public float $productPrice,

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Rentalhost\Vanilla\Checkout\Tests\Wrapper\Cielo;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Request;
@@ -61,7 +62,25 @@ class CieloTest
     /**
      * @depends testMockHandler
      */
-    public function testGetAuthorizationFailure(MockHandler $mockHandler)
+    public function testGetAuthorizationFailureClient(MockHandler $mockHandler)
+    {
+        $cielo = new Cielo([
+            'merchantId'  => 'mock',
+            'merchantKey' => 'mock',
+            'handler'     => $mockHandler,
+        ]);
+
+        $mockHandler->append(
+            new ClientException('Test Error', new Request('GET', 'test'), new Response())
+        );
+
+        $this->assertSame(null, $cielo->getAuthorization());
+    }
+
+    /**
+     * @depends testMockHandler
+     */
+    public function testGetAuthorizationFailureRequest(MockHandler $mockHandler)
     {
         $this->expectExceptionMessage('Test Error');
 
