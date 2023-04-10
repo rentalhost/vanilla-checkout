@@ -262,5 +262,19 @@ class BradescoSlipRequestTest
         );
 
         $this->assertSame([], $request->getInstructions());
+
+        $request = new BradescoSlipRequest(
+            'P123456789',
+            1000,
+            15.0,
+            'description',
+            [ 'line 1', '', null, 'line 4' ],
+            new DataShop('Shop', 'description', '33'),
+            new DataBuyer('Buyer', '12345678910'),
+            new DataAddress('12345678', 'Street', 'Number', 'Complement', 'District', 'City', 'RJ'),
+            new DateTime('now')
+        );
+
+        $this->assertSame([ 'line 1', '', '', 'line 4' ], $request->getInstructions());
     }
 }

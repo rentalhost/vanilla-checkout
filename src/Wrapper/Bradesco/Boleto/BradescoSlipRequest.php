@@ -27,7 +27,7 @@ class BradescoSlipRequest
         public string $productDescription,
 
         /** Product instructions (max. 12 lines). */
-        public string|null $productInstructions,
+        public string|array|null $productInstructions,
 
         /** Shop. */
         public DataShop $shop,
@@ -63,13 +63,21 @@ class BradescoSlipRequest
             return [];
         }
 
-        $instructions = [];
+        /** @var string[]|null[]|string $lines */
+        $lines = $this->productInstructions;
 
-        foreach (preg_split('/\\r?\\n/', $this->productInstructions) as $line) {
-            $instructions[] = str_split($line, 60);
+        if (is_string($lines)) {
+            $lines = preg_split('/\\r?\\n/', $this->productInstructions);
         }
 
-        return array_slice(array_merge(...$instructions), 0, 12);
+        $instructions = [];
+
+        /** @var string[]|null[] $lines */
+        foreach (array_slice($lines, 0, 12) as $line) {
+            $instructions[] = str_split($line ?? '', 60);
+        }
+
+        return array_merge(...$instructions);
     }
 
     #[ArrayShape([
