@@ -10,6 +10,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use Rentalhost\Vanilla\Checkout\Tests\Traits\MockHandlerTrait;
 use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\Cielo;
 use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\CieloProductLink;
 use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\CieloTransactionType;
@@ -17,6 +18,8 @@ use Rentalhost\Vanilla\Checkout\Wrapper\Cielo\CieloTransactionType;
 class CieloTest
     extends TestCase
 {
+    use MockHandlerTrait;
+
     /**
      * @depends testMockHandler
      * @depends testGetAuthorization
@@ -95,12 +98,5 @@ class CieloTest
         );
 
         $cielo->getAuthorization();
-    }
-
-    public function testMockHandler()
-    {
-        $this->assertSame(true, true);
-
-        return new MockHandler();
     }
 }

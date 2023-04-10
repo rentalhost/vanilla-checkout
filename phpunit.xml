@@ -7,6 +7,12 @@
     <include>
       <directory suffix=".php">./src</directory>
     </include>
+
+    <report>
+      <html outputDirectory="./coverage"
+            lowUpperBound="90"
+            highLowerBound="100" />
+    </report>
   </coverage>
 
   <testsuites>
