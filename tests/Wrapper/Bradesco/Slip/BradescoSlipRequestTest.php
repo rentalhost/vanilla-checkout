@@ -268,13 +268,14 @@ class BradescoSlipRequestTest
             1000,
             15.0,
             'description',
-            [ 'line 1', '', null, 'line 4' ],
+            [ 'line 1', '', null, 'line 4', '', '', '', '', '', '', '', 'long long long long long long long long long long long long 123' ],
             new DataShop('Shop', 'description', '33'),
             new DataBuyer('Buyer', '12345678910'),
             new DataAddress('12345678', 'Street', 'Number', 'Complement', 'District', 'City', 'RJ'),
             new DateTime('now')
         );
 
-        $this->assertSame([ 'line 1', '', '', 'line 4' ], $request->getInstructions());
+        $this->assertSame([ 'line 1', '', '', 'line 4', '', '', '', '', '', '', '', 'long long long long long long long long long long long long ' ],
+            $request->getInstructions());
     }
 }

@@ -73,11 +73,15 @@ class BradescoSlipRequest
         $instructions = [];
 
         /** @var string[]|null[] $lines */
-        foreach (array_slice($lines, 0, 12) as $line) {
-            $instructions[] = str_split($line ?? '', 60);
+        foreach ($lines as $line) {
+            array_push($instructions, ...str_split($line ?? '', 60) ?: [ '' ]);
+
+            if (count($instructions) > 12) {
+                return array_slice($instructions, 0, 12);
+            }
         }
 
-        return array_merge(...$instructions);
+        return $instructions;
     }
 
     #[ArrayShape([
