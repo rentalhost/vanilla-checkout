@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Checkout\Tests\Wrapper\Bradesco\Boleto\Data;
+namespace Rentalhost\Vanilla\Checkout\Tests\Wrapper\Bradesco\Slip\Data;
 
 use PHPUnit\Framework\TestCase;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Data\DataAddress;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data\DataAddress;
 
 class DataAddressTest
     extends TestCase

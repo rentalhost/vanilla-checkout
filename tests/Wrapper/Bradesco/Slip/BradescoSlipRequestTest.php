@@ -2,19 +2,19 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Checkout\Tests\Wrapper\Bradesco\Boleto;
+namespace Rentalhost\Vanilla\Checkout\Tests\Wrapper\Bradesco\Slip;
 
 use DateTime;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Rentalhost\Vanilla\Checkout\Tests\Traits\MockHandlerTrait;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Bradesco;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\BradescoSlipRequest;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Data\DataAddress;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Data\DataBuyer;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Data\DataShop;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Exceptions\BradescoSlipResponseException;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Bradesco;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\BradescoSlipRequest;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data\DataAddress;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data\DataBuyer;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data\DataShop;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Exceptions\BradescoSlipResponseException;
 
 class BradescoSlipRequestTest
     extends TestCase

@@ -2,14 +2,14 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto;
+namespace Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip;
 
 use DateTime;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Data\DataAddress;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Data\DataBuyer;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Data\DataShop;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data\DataAddress;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data\DataBuyer;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data\DataShop;
 
 class BradescoSlipRequest
 {

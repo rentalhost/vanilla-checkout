@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto;
+namespace Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -10,8 +10,6 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class Bradesco
 {
-    private string|null $authorizationBearer = null;
-
     private readonly Client $client;
 
     private readonly string $merchantId;

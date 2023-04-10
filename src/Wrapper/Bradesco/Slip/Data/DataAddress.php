@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Data;
+namespace Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data;
 
 use Exception;
 

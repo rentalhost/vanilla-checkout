@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto;
+namespace Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Boleto\Exceptions\BradescoSlipResponseException;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Exceptions\BradescoSlipResponseException;
 
 class BradescoSlipResponse
 {
