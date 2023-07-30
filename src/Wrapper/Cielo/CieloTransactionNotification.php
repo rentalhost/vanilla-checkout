@@ -14,6 +14,8 @@ class CieloTransactionNotification
 
     public CieloTransactionStatus $paymentStatus;
 
+    public string $productId;
+
     private function __construct()
     {
     }
@@ -26,6 +28,7 @@ class CieloTransactionNotification
         $instance->orderNumber         = $notification['order_number'];
         $instance->paymentStatus       = CieloTransactionStatus::from($notification['payment_status']);
         $instance->paymentInstallments = $notification['payment_installments'];
+        $instance->productId           = $notification['product_id'];
 
         return $instance;
     }

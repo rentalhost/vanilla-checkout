@@ -26,6 +26,7 @@ class CieloListenerTest
             'order_number'                => 'Order01',
             'payment_status'              => CieloTransactionStatus::PAID->value,
             'payment_installments'        => 3,
+            'product_id'                  => 'uuid-value',
         ]));
 
         $listener     = new CieloListener('mock');
@@ -37,12 +38,14 @@ class CieloListenerTest
         $this->assertTrue($notification->paymentStatus->isPaid());
         $this->assertFalse($notification->paymentStatus->isRejected());
         $this->assertSame(3, $notification->paymentInstallments);
+        $this->assertSame('uuid-value', $notification->productId);
 
         DataProvider::put(Request::REQUEST_BODY, json_encode([
             'checkout_cielo_order_number' => '123-456-guid',
             'order_number'                => 'Order01',
             'payment_status'              => CieloTransactionStatus::AUTHORIZED->value,
             'payment_installments'        => 3,
+            'product_id'                  => 'uuid-value',
         ]));
 
         $listener     = new CieloListener('mock');
@@ -56,6 +59,7 @@ class CieloListenerTest
             'order_number'                => 'Order01',
             'payment_status'              => CieloTransactionStatus::DENIED->value,
             'payment_installments'        => 3,
+            'product_id'                  => 'uuid-value',
         ]));
 
         $listener     = new CieloListener('mock');
@@ -70,6 +74,7 @@ class CieloListenerTest
             'order_number'                => 'Order01',
             'payment_status'              => CieloTransactionStatus::EXPIRED->value,
             'payment_installments'        => 3,
+            'product_id'                  => 'uuid-value',
         ]));
 
         $listener     = new CieloListener('mock');
@@ -84,6 +89,7 @@ class CieloListenerTest
             'order_number'                => 'Order01',
             'payment_status'              => CieloTransactionStatus::VOIDED->value,
             'payment_installments'        => 3,
+            'product_id'                  => 'uuid-value',
         ]));
 
         $listener     = new CieloListener('mock');
@@ -98,6 +104,7 @@ class CieloListenerTest
             'order_number'                => 'Order01',
             'payment_status'              => CieloTransactionStatus::NOT_FINALIZED->value,
             'payment_installments'        => 3,
+            'product_id'                  => 'uuid-value',
         ]));
 
         $listener     = new CieloListener('mock');
