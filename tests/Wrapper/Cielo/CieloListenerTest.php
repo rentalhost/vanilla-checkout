@@ -118,7 +118,6 @@ class CieloListenerTest
             'checkout_cielo_order_number' => '123-456-guid',
             'order_number'                => 'Order01',
             'payment_status'              => (string) CieloTransactionStatus::NOT_FINALIZED->value,
-            'payment_installments'        => '3',
         ]));
 
         $listener     = new CieloListener('mock');
@@ -127,6 +126,7 @@ class CieloListenerTest
         $this->assertSame(CieloTransactionStatus::NOT_FINALIZED, $notification->paymentStatus);
         $this->assertFalse($notification->paymentStatus->isPaid());
         $this->assertTrue($notification->paymentStatus->isRejected());
+        $this->assertNull($notification->paymentInstallments);
     }
 
     public function testListenerException()

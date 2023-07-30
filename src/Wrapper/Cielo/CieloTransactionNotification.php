@@ -10,7 +10,7 @@ class CieloTransactionNotification
 
     public string $orderNumber;
 
-    public int $paymentInstallments;
+    public int|null $paymentInstallments = null;
 
     public CieloTransactionStatus $paymentStatus;
 
@@ -24,11 +24,15 @@ class CieloTransactionNotification
     {
         $instance = new self();
 
-        $instance->id                  = $notification['checkout_cielo_order_number'];
-        $instance->orderNumber         = $notification['order_number'];
-        $instance->paymentStatus       = CieloTransactionStatus::from((int) $notification['payment_status']);
-        $instance->paymentInstallments = (int) ($notification['payment_installments'] ?? 1);
-        $instance->productId           = $notification['product_id'] ?? null;
+        $instance->id            = $notification['checkout_cielo_order_number'];
+        $instance->orderNumber   = $notification['order_number'];
+        $instance->paymentStatus = CieloTransactionStatus::from((int) $notification['payment_status']);
+
+        if (isset($notification['payment_installments'])) {
+            $instance->paymentInstallments = (int) $notification['payment_installments'];
+        }
+
+        $instance->productId = $notification['product_id'] ?? null;
 
         return $instance;
     }
