@@ -84,7 +84,7 @@ class BradescoSlipQuery
 
     public function setAuthorizationToken(string|null $authorizationToken): void
     {
-        $this->authenticationManual = true;
+        $this->authenticationManual = $authorizationToken !== null;
         $this->authorizationToken   = $authorizationToken;
     }
 
@@ -105,8 +105,8 @@ class BradescoSlipQuery
                 'query'   => [
                     'token'       => $token,
                     'offset'      => $offset,
-                    'dataInicial' => (new DateTime())->sub(new DateInterval(sprintf('P%uD', $daysInterval))),
-                    'dataFinal'   => new DateTime(),
+                    'dataInicial' => (new DateTime())->sub(new DateInterval(sprintf('P%uD', $daysInterval)))->format('Y/m/d H:i'),
+                    'dataFinal'   => (new DateTime())->format('Y/m/d H:i'),
                     'limit'       => 1500,
                     'status'      => 1,
                 ],
