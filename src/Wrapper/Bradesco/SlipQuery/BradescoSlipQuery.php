@@ -114,6 +114,12 @@ class BradescoSlipQuery
 
             $response = json_decode($request->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
+            // Empty results or no more results.
+            if ($response['status']['codigo'] === -501) {
+                break;
+            }
+
+            // Authentication failure: reauthenticate.
             if ($response['status']['codigo'] === -206) {
                 if ($this->authenticationManual) {
                     $this->authorizationToken = null;

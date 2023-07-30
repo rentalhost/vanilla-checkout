@@ -146,6 +146,30 @@ class BradescoSlipQueryRequestTest
     }
 
     /** @depends testMockHandler */
+    public function testResponseEmpty(MockHandler $mockHandler)
+    {
+        $mockHandler->append(
+            new Response(200, [], json_encode([
+                'status' => [ 'codigo' => -501 ],
+            ])),
+        );
+
+        $request = new BradescoSlipQuery([
+            'merchantId'       => 'mock',
+            'merchantKey'      => 'mock',
+            'merchantUsername' => 'mock',
+            'handler'          => $mockHandler,
+        ]);
+
+        $request->setAuthorizationToken('mock');
+
+        $responses = $request->query();
+
+        $this->assertSame('mock', $request->getAuthorizationToken());
+        $this->assertSame(0, count($responses));
+    }
+
+    /** @depends testMockHandler */
     public function testResponsePreAuthenticated(MockHandler $mockHandler)
     {
         $mockHandler->append(
