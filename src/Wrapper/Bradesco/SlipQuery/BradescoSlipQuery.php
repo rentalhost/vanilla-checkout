@@ -72,7 +72,7 @@ class BradescoSlipQuery
     }
 
     /** @return BradescoSlipQueryResponse[] */
-    public function query(): array
+    public function query($daysInterval = 1): array
     {
         $token   = $this->getAuthorizationToken();
         $offset  = 1;
@@ -88,7 +88,7 @@ class BradescoSlipQuery
                 'query'   => [
                     'token'       => $token,
                     'offset'      => $offset,
-                    'dataInicial' => (new DateTime())->sub(new DateInterval('P5D')),
+                    'dataInicial' => (new DateTime())->sub(new DateInterval(sprintf('P%uD', $daysInterval))),
                     'dataFinal'   => new DateTime(),
                     'limit'       => 1500,
                     'status'      => 1,
