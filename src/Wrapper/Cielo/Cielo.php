@@ -58,6 +58,7 @@ class Cielo
                 'softDescriptor'          => $productLink->transactionSoftDescriptor,
                 'maxNumberOfInstallments' => $productLink->paymentMaxInstallments,
                 'quantity'                => $productLink->transactionsQuantity,
+                'shipping'                => [ 'type' => 'WithoutShipping' ],
                 'type'                    => $productLink->transactionType->value,
             ]),
         ]);
