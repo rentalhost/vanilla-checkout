@@ -132,4 +132,23 @@ class CieloListenerTest
         $listener = new CieloListener('example');
         $listener->getTransactionNotification();
     }
+
+    public function testListenerWithHeaderCheckDisabled()
+    {
+        DataProvider::put(Request::REQUEST_HEADERS, [ 'MerchantId' => 'unexpected-token' ]);
+        DataProvider::put(Request::REQUEST_BODY, json_encode([
+            'checkout_cielo_order_number' => '123-456-guid',
+            'order_number'                => 'Order01',
+            'payment_status'              => CieloTransactionStatus::PAID->value,
+            'payment_installments'        => 3,
+            'product_id'                  => 'uuid-value',
+        ]));
+
+        $listener = new CieloListener('mock');
+        $listener->enableHeaderCheck(false);
+
+        $notification = $listener->getTransactionNotification();
+
+        $this->assertSame('123-456-guid', $notification->id);
+    }
 }
