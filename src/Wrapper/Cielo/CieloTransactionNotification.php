@@ -27,7 +27,7 @@ class CieloTransactionNotification
         $instance->id                  = $notification['checkout_cielo_order_number'];
         $instance->orderNumber         = $notification['order_number'];
         $instance->paymentStatus       = CieloTransactionStatus::from((int) $notification['payment_status']);
-        $instance->paymentInstallments = $notification['payment_installments'] ?? 1;
+        $instance->paymentInstallments = (int) ($notification['payment_installments'] ?? 1);
         $instance->productId           = $notification['product_id'] ?? null;
 
         return $instance;
