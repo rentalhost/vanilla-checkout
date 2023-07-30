@@ -9,9 +9,12 @@ use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use JetBrains\PhpStorm\ArrayShape;
+use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\SlipQuery\Exceptions\BradescoSlipQueryAuthenticationException;
 
 class BradescoSlipQuery
 {
+    private bool $authenticationManual = false;
+
     private string|null $authorizationToken = null;
 
     private readonly Client $client;
@@ -59,16 +62,30 @@ class BradescoSlipQuery
     public function getAuthorizationToken(): string|null
     {
         if ($this->authorizationToken === null) {
-            $this->authorizationToken = json_decode($this->client->request('GET', sprintf(self::getEndpoint() . '/Authentication/%s', $this->merchantId), [
+            $this->authenticationManual = false;
+
+            $response = json_decode($this->client->request('GET', sprintf(self::getEndpoint() . '/Authentication/%s', $this->merchantId), [
                 'headers' => [
                     'Authorization' => $this->getAuthorizationHeader(),
                     'Accept'        => 'application/json',
                     'Content-Type'  => 'application/json',
                 ],
-            ])->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)['token']['token'];
+            ])->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+
+            if ($response['status']['codigo'] !== 0) {
+                throw new BradescoSlipQueryAuthenticationException();
+            }
+
+            $this->authorizationToken = $response['token']['token'];
         }
 
         return $this->authorizationToken;
+    }
+
+    public function setAuthorizationToken(string|null $authorizationToken): void
+    {
+        $this->authenticationManual = true;
+        $this->authorizationToken   = $authorizationToken;
     }
 
     /** @return BradescoSlipQueryResponse[] */
@@ -96,6 +113,16 @@ class BradescoSlipQuery
             ]);
 
             $response = json_decode($request->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+
+            if ($response['status']['codigo'] === -206) {
+                if ($this->authenticationManual) {
+                    $this->authorizationToken = null;
+
+                    return $this->query($daysInterval);
+                }
+
+                throw new BradescoSlipQueryAuthenticationException();
+            }
 
             $offset    = $response['paging']['nextOffset'];
             $results[] = $response['pedidos'];
