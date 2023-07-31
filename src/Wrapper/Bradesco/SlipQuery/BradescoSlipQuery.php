@@ -130,6 +130,10 @@ class BradescoSlipQuery
                 throw new BradescoSlipQueryAuthenticationException();
             }
 
+            if ($response['status']['codigo'] !== 0) {
+                break;
+            }
+
             $offset    = $response['paging']['nextOffset'];
             $results[] = $response['pedidos'];
         }
