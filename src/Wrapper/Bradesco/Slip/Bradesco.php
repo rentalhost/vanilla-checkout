@@ -40,12 +40,12 @@ class Bradesco
     public function createBillet(BradescoSlipRequest $productSlip): BradescoSlipResponse
     {
         $request = $this->client->request('POST', self::getEndpoint() . '/transacao', [
-            'headers'     => [
+            'headers' => [
                 'Authorization' => $this->getAuthorization(),
                 'Accept'        => 'application/json',
                 'Content-Type'  => 'application/json',
             ],
-            'form_params' => $productSlip->toTransactionArray($this->merchantId),
+            'body'    => json_encode($productSlip->toTransactionArray($this->merchantId)),
         ]);
 
         return new BradescoSlipResponse(json_decode($request->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR));
