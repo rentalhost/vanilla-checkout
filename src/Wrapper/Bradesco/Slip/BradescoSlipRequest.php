@@ -13,6 +13,8 @@ use Rentalhost\Vanilla\Checkout\Wrapper\Bradesco\Slip\Data\DataShop;
 
 class BradescoSlipRequest
 {
+    private string|null $token = null;
+
     public function __construct(
         /** Request reference. */
         public string $requestReference,
@@ -82,6 +84,15 @@ class BradescoSlipRequest
         }
 
         return $instructions;
+    }
+
+    public function getToken(): string
+    {
+        if ($this->token === null) {
+            $this->token = hash('sha256', random_bytes(4096));
+        }
+
+        return $this->token;
     }
 
     #[ArrayShape([
@@ -168,7 +179,7 @@ class BradescoSlipRequest
             ],
 
             // Token.
-            'token_request_confirmacao_pagamento' => hash('sha256', random_bytes(4096)),
+            'token_request_confirmacao_pagamento' => $this->getToken(),
         ];
     }
 }
