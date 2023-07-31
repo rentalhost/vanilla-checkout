@@ -44,7 +44,7 @@ class BradescoSlipRequest
         public DateTime $dateExpiration,
     ) {
         if (strlen($this->requestReference) > 27 ||
-            preg_match('/^[\w.]?\d+[\w.-]*$/', $this->requestReference) === 0) {
+            preg_match('/^[\w.]*\d+[\w.-]*$/', $this->requestReference) === 0) {
             throw new Exception('invalid request reference');
         }
 

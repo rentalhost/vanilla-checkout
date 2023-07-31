@@ -24,7 +24,7 @@ class BradescoSlipRequestTest
     private static function getRequestModel(): BradescoSlipRequest
     {
         return new BradescoSlipRequest(
-            'P123456789',
+            'PP123456789',
             1000,
             15.0,
             'description',
@@ -75,7 +75,7 @@ class BradescoSlipRequestTest
         $this->expectExceptionMessage('request number must be lower or equal to 99999999999');
 
         new BradescoSlipRequest(
-            'P123456789',
+            'PP123456789',
             100000000000,
             15.0,
             'description',
@@ -92,7 +92,7 @@ class BradescoSlipRequestTest
         $this->expectExceptionMessage('request number must be greater or equal to 1000');
 
         new BradescoSlipRequest(
-            'P123456789',
+            'PP123456789',
             999,
             15.0,
             'description',
@@ -162,7 +162,7 @@ class BradescoSlipRequestTest
     {
         $request = self::getRequestModel();
 
-        $this->assertSame('P123456789', $request->requestReference);
+        $this->assertSame('PP123456789', $request->requestReference);
         $this->assertSame(1000, $request->requestNumber);
         $this->assertSame(15.0, $request->productPrice);
         $this->assertSame('description', $request->productDescription);
@@ -197,7 +197,7 @@ class BradescoSlipRequestTest
             'merchant_id'    => '123',
             'meio_pagamento' => 300,
             'pedido'         => [
-                'numero'    => 'P123456789',
+                'numero'    => 'PP123456789',
                 'valor'     => 1500,
                 'descricao' => 'description',
             ],
@@ -236,7 +236,7 @@ class BradescoSlipRequestTest
         ], $transactionArray);
 
         $request = new BradescoSlipRequest(
-            'P123456789',
+            'PP123456789',
             1000,
             15.0,
             'description',
@@ -250,7 +250,7 @@ class BradescoSlipRequestTest
         $this->assertSame([], $request->getInstructions());
 
         $request = new BradescoSlipRequest(
-            'P123456789',
+            'PP123456789',
             1000,
             15.0,
             'description',
@@ -264,7 +264,7 @@ class BradescoSlipRequestTest
         $this->assertSame([], $request->getInstructions());
 
         $request = new BradescoSlipRequest(
-            'P123456789',
+            'PP123456789',
             1000,
             15.0,
             'description',
