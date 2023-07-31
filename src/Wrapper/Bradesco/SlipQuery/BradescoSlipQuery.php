@@ -120,7 +120,8 @@ class BradescoSlipQuery
             }
 
             // Authentication failure: reauthenticate.
-            if ($response['status']['codigo'] === -206) {
+            if ($response['status']['codigo'] === -206 ||
+                $response['status']['codigo'] === -208) {
                 if ($this->authenticationManual) {
                     $this->authorizationToken = null;
 
